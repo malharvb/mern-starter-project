@@ -6,7 +6,7 @@ const getTodos = async (req,res) => {
     const todos = await Todo.find()
 
     if(!todos) {
-        res.status(200).json({msg: "No todos"})
+        res.status(200).json({error: "No todos"})
     }
 
     res.status(200).json(todos)
@@ -16,14 +16,14 @@ const getTodo = async (req,res) => {
     const id = req.params.id
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).json({msg: "No such todo exists"})
+        res.status(404).json({error: "No such todo exists"})
         return
     }
 
     const todo = await Todo.find({_id: id})
 
     if(!todo) {
-        res.status(404).json({msg: "No such todo exists"})
+        res.status(404).json({error: "No such todo exists"})
         return
     }
 
@@ -47,14 +47,14 @@ const updateTodo = async (req,res) => {
     const id = req.params.id
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).json({msg: "No such todo exists"})
+        res.status(404).json({error: "No such todo exists"})
         return
     }
 
     const todo = await Todo.findOneAndUpdate({_id: id}, {...req.body})
 
     if(!todo) {
-        res.status(404).json({msg: "No such todo exists"})
+        res.status(404).json({error: "No such todo exists"})
         return
     }
 
@@ -65,14 +65,14 @@ const deleteTodo = async (req,res) => {
     const id = req.params.id
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).json({msg: "No such todo exists"})
+        res.status(404).json({error: "No such todo exists"})
         return
     }
 
     const todo = await Todo.findOneAndDelete({_id: id})
 
     if(!todo) {
-        res.status(404).json({msg: "No such todo exists"})
+        res.status(404).json({error: "No such todo exists"})
         return
     }
 
