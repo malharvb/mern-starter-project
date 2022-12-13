@@ -5,16 +5,16 @@
 
 import useTodoContext from '../hooks/todoReducer';
 
-function Todo({ todo }) {
+function TodoDetails({ todo }) {
   const { dispatch } = useTodoContext();
 
   async function handleClick() {
-    const request = await fetch(`/todolist/${todo._id}`, {
+    const response = await fetch(`/todolist/${todo._id}`, {
       method: 'delete',
     });
-    const json = await request.json();
+    const json = await response.json();
     // todo object can also be used as payload
-    if (request.ok) {
+    if (response.ok) {
       dispatch({ type: 'DELETE_TODO', payload: json });
     }
   }
@@ -29,4 +29,4 @@ function Todo({ todo }) {
   );
 }
 
-export default Todo;
+export default TodoDetails;

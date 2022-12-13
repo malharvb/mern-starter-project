@@ -12,7 +12,7 @@ function TodoForm() {
 
   async function handleClick(e) {
     e.preventDefault();
-    const request = await fetch('/todolist', {
+    const response = await fetch('/todolist', {
       method: 'post',
       body: JSON.stringify({
         name, desc,
@@ -21,9 +21,9 @@ function TodoForm() {
         'Content-Type': 'application/json',
       },
     });
-    const json = await request.json();
+    const json = await response.json();
 
-    if (!request.ok) {
+    if (!response.ok) {
       setErr(json.error);
       return;
     }
