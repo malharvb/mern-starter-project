@@ -1,7 +1,6 @@
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable react/jsx-filename-extension */
-import { useState } from 'react';
-import useTodoContext from '../hooks/todoReducer';
+import React, { useState } from 'react';
+
+import useTodoContext from '../hooks/useTodoContext';
 
 function TodoForm() {
   const [name, setName] = useState();
@@ -28,21 +27,31 @@ function TodoForm() {
       return;
     }
     setErr('');
+    setName('');
+    setDesc('');
     dispatch({ type: 'CREATE_TODO', payload: json });
   }
 
   return (
-    <form onSubmit={handleClick}>
+    <form onSubmit={handleClick} className="add-todo-form">
+      <h2 className="add-todo-header">Add Todo</h2>
       <label htmlFor="name">
-        Todo Name
-        <input type="text" id="name" onChange={(e) => setName(e.target.value)} />
+        Todo Name:
+        <input type="text" id="name" onChange={(e) => setName(e.target.value)} value={name} />
       </label>
       <label htmlFor="desc">
-        Todo Description
-        <input type="text" id="desc" onChange={(e) => setDesc(e.target.value)} />
+        Todo Description:
+        <textarea
+          name="desc"
+          id="desc"
+          onChange={(e) => setDesc(e.target.value)}
+          value={desc}
+        />
+        {/* <input type="textarea" id="desc" onChange={(e) => setDesc(e.target.value)}
+        value={desc} /> */}
       </label>
       <input type="submit" />
-      {err && <div>{err}</div>}
+      {err && <div className="error-msg">{err}</div>}
     </form>
   );
 }

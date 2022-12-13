@@ -1,8 +1,5 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable react/react-in-jsx-scope */
-import { createContext, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
+import PropTypes from 'prop-types';
 
 export const TodoContext = createContext();
 
@@ -34,3 +31,7 @@ export function TodoContextProvider({ children }) {
     </TodoContext.Provider>
   );
 }
+
+TodoContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
