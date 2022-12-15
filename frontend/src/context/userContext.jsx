@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 export const UserContext = createContext();
@@ -16,6 +16,15 @@ export const userReducer = (state, action) => {
 
 export function UserContextProvider({ children }) {
   const [state, dispatch] = useReducer(userReducer, { user: null });
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+      dispatch({ type: 'LOGIN', payload: user });
+    }
+  }, []);
+
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
     <UserContext.Provider value={{ ...state, dispatch }}>

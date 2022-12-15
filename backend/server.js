@@ -8,12 +8,20 @@ const authRoutes = require('./routes/authRoutes')
 
 const mongoose = require('mongoose')
 
+const path = require('path')
+
 const port = process.env.PORT
 
 app.use(express.json())
 
+app.use(express.static(path.resolve(__dirname, '../frontend/build')));
+
 app.use('/auth', authRoutes)
 app.use('/todolist', todoRoutes)
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
+});
 
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_URI)

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 
 import useTodoContext from '../hooks/useTodoContext';
+import useUserContext from '../hooks/useUserContext';
 
 function TodoForm() {
   const [name, setName] = useState();
   const [desc, setDesc] = useState();
   const [err, setErr] = useState();
+  const [emptyFields, setEmptyFields] = useState([]);
 
   const { dispatch } = useTodoContext();
+  const { user } = useUserContext();
 
   async function handleClick(e) {
     e.preventDefault();
@@ -18,17 +21,20 @@ function TodoForm() {
       }),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.token}`,
       },
     });
     const json = await response.json();
 
     if (!response.ok) {
       setErr(json.error);
+      setEmptyFields(json.emptyFields);
       return;
     }
     setErr('');
     setName('');
     setDesc('');
+    setEmptyFields([]);
     dispatch({ type: 'CREATE_TODO', payload: json });
   }
 
@@ -37,7 +43,7 @@ function TodoForm() {
       <h2 className="add-todo-header">Add Todo</h2>
       <label htmlFor="name">
         Todo Name:
-        <input type="text" id="name" onChange={(e) => setName(e.target.value)} value={name} />
+        <input type="text" id="name" onChange={(e) => setName(e.target.value)} value={name} className={emptyFields.includes('name') ? 'error' : ''} />
       </label>
       <label htmlFor="desc">
         Todo Description:
@@ -46,9 +52,8 @@ function TodoForm() {
           id="desc"
           onChange={(e) => setDesc(e.target.value)}
           value={desc}
+          className={emptyFields.includes('desc') ? 'error' : ''}
         />
-        {/* <input type="textarea" id="desc" onChange={(e) => setDesc(e.target.value)}
-        value={desc} /> */}
       </label>
       <input type="submit" />
       {err && <div className="error-msg">{err}</div>}

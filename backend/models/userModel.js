@@ -23,7 +23,7 @@ userSchema.statics.register = async function(email, password) {
         throw Error('Enter a valid email')
     }
     if(!validator.isStrongPassword(password)) {
-        throw Error('Enter a valid password')
+        throw Error('Enter a valid password with 1 uppercase letter, 1 number, 1 special character having a minimum length of 8 characters')
     }
     
     const exists = await this.findOne({email})
@@ -44,7 +44,7 @@ userSchema.statics.register = async function(email, password) {
 userSchema.statics.login = async function(email, password) {
 
     if(!email || !password) {
-        throw Error('Enter a non-empty username and password')
+        throw Error('Enter a valid username and password')
     }
 
     const user = await this.findOne({email})

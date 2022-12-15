@@ -9,6 +9,10 @@ const {
     deleteTodo
 } = require('../controllers/todoControllers')
 
+const protectTodoRoutes = require('../middleware/protectTodoRoutes')
+
+router.use(protectTodoRoutes)
+
 router.get('/', getTodos)
 
 router.get('/:id', getTodo)
