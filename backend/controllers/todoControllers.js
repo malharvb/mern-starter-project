@@ -10,7 +10,7 @@ const getTodos = async (req,res) => {
     if(!todos) {
         res.status(200).json({error: "No todos"})
     }
-
+    console.log(req.socket.address())
     res.status(200).json(todos)
 }
 
