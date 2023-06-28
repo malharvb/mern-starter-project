@@ -10,7 +10,7 @@ const getTodos = async (req,res) => {
     if(!todos) {
         res.status(200).json({error: "No todos"})
     }
-    console.log(req.socket.address())
+    console.log(req.header['x-forwarded-for'])
     res.status(200).json(todos)
 }
 
