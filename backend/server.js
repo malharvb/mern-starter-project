@@ -12,6 +12,7 @@ const path = require('path')
 
 const port = process.env.PORT
 
+app.set('trust proxy', true)
 app.use(express.json())
 
 app.use(express.static(path.resolve(__dirname, 'build')));
